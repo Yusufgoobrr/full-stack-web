@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Your custom styles can go here */
+:root {
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+.font-montserrat {
+  font-family: var(--font-montserrat);
+}
