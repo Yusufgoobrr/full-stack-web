@@ -1,18 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import api from "@/lib/axios";
-
-type TProduct = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  stockLevel: number;
-  isPublished: boolean;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
-};
+import { TProduct } from "@/types";
 
 const Page = async () => {
   const { data, status } = await api.get("/api/v1/products");
