@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import DarkModeToggle from "@/components/DarkModeToggle";
 import { DashboardTabs } from "@/data/dashboard";
 import ProductLogo from "@/icons/logos/ProductLogo";
 
@@ -88,12 +89,15 @@ const Sidebar = () => {
         </div>
 
         <div className="flex items-center space-x-2">
+          {/* Dark Mode Toggle for Mobile */}
+          <DarkModeToggle />
+
           <Link
             href="/dashboard"
-            className="w-8 h-8 bg-white border rounded-full flex items-center justify-center relative hover:scale-105 hover:shadow-lg duration-200"
+            className="w-8 h-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center relative hover:scale-105 hover:shadow-lg duration-200"
           >
             <div>
-              <BellIcon className="w-4 h-4" />
+              <BellIcon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="w-2 h-2 bg-[#BAFC50] rounded-full absolute top-0 right-1" />
           </Link>
@@ -101,7 +105,7 @@ const Sidebar = () => {
           <div className="relative" ref={avatarRef}>
             <button
               onClick={() => setShowLogoutPopup(!showLogoutPopup)}
-              className="w-8 h-8 border bg-gray-100 rounded-full relative overflow-hidden hover:scale-105 hover:shadow-lg duration-200 cursor-pointer"
+              className="w-8 h-8 border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 rounded-full relative overflow-hidden hover:scale-105 hover:shadow-lg duration-200 cursor-pointer"
             >
               <Image
                 src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face"
@@ -115,7 +119,7 @@ const Sidebar = () => {
                   const parent = target.parentElement;
                   if (parent) {
                     parent.innerHTML = `
-                      <div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                      <div class="w-full h-full bg-linear-to-br from-blue-400 to-purple-500 flex items-center justify-center">
                         <span class="text-white font-semibold text-xs">M</span>
                       </div>
                     `;
@@ -132,11 +136,11 @@ const Sidebar = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 min-w-[120px] z-50"
+                  className="absolute top-10 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-2 min-w-[120px] z-50"
                 >
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md duration-200"
+                    className="w-full flex items-center space-x-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md duration-200"
                   >
                     <ArrowRightStartOnRectangleIcon className="w-4 h-4" />
                     <span className="text-sm font-medium">Sign out</span>
@@ -151,13 +155,13 @@ const Sidebar = () => {
       {/* SIDEBAR on Mobile */}
       <AnimatePresence>
         {isOpen && (
-          <div className="w-full inset-0 h-screen fixed bg-[#00000010] duration-300 overflow-hidden lg:hidden z-50">
+          <div className="w-full inset-0 h-screen fixed bg-[#00000010] dark:bg-[#00000050] duration-300 overflow-hidden lg:hidden z-50">
             <motion.div
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={sidebarVariants}
-              className="flex flex-col space-y-20 w-full max-w-xs p-3 bg-white h-full"
+              className="flex flex-col space-y-20 w-full max-w-xs p-3 bg-white dark:bg-gray-800 h-full"
             >
               <div className="flex items-center justify-between">
                 <ProductLogo />
@@ -176,8 +180,8 @@ const Sidebar = () => {
                       className={twMerge(
                         "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200 w-full text-left",
                         pathname === tab.link
-                          ? "bg-white text-black"
-                          : "text-[#9B9B9B] hover:bg-white hover:text-black",
+                          ? "bg-white dark:bg-gray-700 text-black dark:text-white"
+                          : "text-[#9B9B9B] dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 hover:text-black dark:hover:text-white",
                       )}
                     >
                       {tab.icon}
@@ -204,8 +208,8 @@ const Sidebar = () => {
               className={twMerge(
                 "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200 w-full text-left",
                 pathname === tab.link
-                  ? "bg-white text-black"
-                  : "text-[#9B9B9B] hover:bg-white hover:text-black",
+                  ? "bg-white dark:bg-gray-700 text-black dark:text-white"
+                  : "text-[#9B9B9B] dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700 hover:text-black dark:hover:text-white",
               )}
             >
               {tab.icon}

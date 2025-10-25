@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@variant dark (.dark &);
+
+/* Prevent flash of unstyled content */
+html {
+  background-color: #fafafa;
+  transition: background-color 0.2s ease;
+}
+
+html.dark {
+  background-color: #111827;
+}
+
 /* Your custom styles can go here */
 :root {
   --font-montserrat: "Montserrat", sans-serif;

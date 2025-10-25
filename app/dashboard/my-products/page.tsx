@@ -107,31 +107,37 @@ const Page = () => {
     <>
       <div className="space-y-5 md:space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg md:text-xl">My Listing</h2>
+          <h2 className="text-lg md:text-xl text-gray-900 dark:text-gray-100">
+            My Listing
+          </h2>
           <Link
             href="/dashboard/products/new"
-            className="py-1.5 px-4 font-medium rounded-full text-sm border-2 border-transparent bg-[#BAFC50] hover:bg-white hover:border-[#BAFC50] hover:scale-95 duration-200"
+            className="py-1.5 px-4 font-medium rounded-full text-sm border-2 border-transparent bg-[#BAFC50] hover:bg-white dark:hover:bg-gray-800 hover:border-[#BAFC50] hover:scale-95 duration-200"
           >
-            <p>Add New Product</p>
+            <p className="text-gray-900">Add New Product</p>
           </Link>
         </div>
 
-        <div className="border border-gray-200 rounded-2xl text-center overflow-x-auto">
+        <div className="border border-gray-200 dark:border-gray-700 rounded-2xl text-center overflow-x-auto bg-white dark:bg-gray-800">
           <div className="min-w-[1200px]">
-            <div className="grid grid-cols-8 py-2.5 px-6 border-b border-gray-200 font-medium">
-              <p className="col-start-1 col-end-3 text-left">Products</p>
-              <p>Price</p>
-              <p>Stock</p>
-              <p>Stock Level</p>
-              <p>Published</p>
-              <p>Manage</p>
-              <p>Delete</p>
+            <div className="grid grid-cols-8 py-2.5 px-6 border-b border-gray-200 dark:border-gray-700 font-medium bg-gray-50 dark:bg-gray-900">
+              <p className="col-start-1 col-end-3 text-left text-gray-900 dark:text-gray-100">
+                Products
+              </p>
+              <p className="text-gray-900 dark:text-gray-100">Price</p>
+              <p className="text-gray-900 dark:text-gray-100">Stock</p>
+              <p className="text-gray-900 dark:text-gray-100">Stock Level</p>
+              <p className="text-gray-900 dark:text-gray-100">Published</p>
+              <p className="text-gray-900 dark:text-gray-100">Manage</p>
+              <p className="text-gray-900 dark:text-gray-100">Delete</p>
             </div>
 
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {loading ? (
                 <div className="py-8 text-center">
-                  <p>Loading products...</p>
+                  <p className="text-gray-900 dark:text-gray-100">
+                    Loading products...
+                  </p>
                 </div>
               ) : error ? (
                 <div className="py-8 text-center text-red-500">
@@ -139,7 +145,9 @@ const Page = () => {
                 </div>
               ) : products.length === 0 ? (
                 <div className="py-8 text-center">
-                  <p>No products found</p>
+                  <p className="text-gray-900 dark:text-gray-100">
+                    No products found
+                  </p>
                 </div>
               ) : (
                 products.map((product, index) => {
@@ -153,7 +161,7 @@ const Page = () => {
                   return (
                     <div
                       key={product.id}
-                      className="grid grid-cols-8 py-5 px-6 items-center"
+                      className="grid grid-cols-8 py-5 px-6 items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                     >
                       <div className="col-start-1 col-end-3 text-left">
                         <div className="flex items-center space-x-4">
@@ -165,27 +173,33 @@ const Page = () => {
                               height={60}
                             />
                           ) : (
-                            <div className="w-[60px] h-[60px] bg-gray-100 rounded-lg flex items-center justify-center">
+                            <div className="w-[60px] h-[60px] bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                               <Box />
                             </div>
                           )}
 
-                          <p className="line-clamp-1">{product.name}</p>
+                          <p className="line-clamp-1 text-gray-900 dark:text-gray-100">
+                            {product.name}
+                          </p>
                         </div>
                       </div>
 
                       <div>
-                        <p>${product.price}</p>
+                        <p className="text-gray-900 dark:text-gray-100">
+                          ${product.price}
+                        </p>
                       </div>
 
                       <div>
-                        <p>{product.stockLevel}</p>
+                        <p className="text-gray-900 dark:text-gray-100">
+                          {product.stockLevel}
+                        </p>
                       </div>
 
                       <div className="space-y-2">
                         <div
                           className={twMerge(
-                            "w-full h-1.5 bg-gray-100 border border-gray-200 rounded-full duration-500",
+                            "w-full h-1.5 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full duration-500",
                           )}
                         >
                           <motion.div
@@ -203,7 +217,7 @@ const Page = () => {
                           ></motion.div>
                         </div>
 
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {randomPercentage}%
                         </p>
                       </div>
@@ -214,13 +228,13 @@ const Page = () => {
                             "p-[3px] rounded-full w-11 duration-300",
                             publishedStatus[index]
                               ? "bg-green-500"
-                              : "bg-gray-200 hover:bg-green-200",
+                              : "bg-gray-200 dark:bg-gray-600 hover:bg-green-200 dark:hover:bg-green-600",
                           )}
                           onClick={() => togglePublished(index, product.id)}
                         >
                           <div
                             className={twMerge(
-                              "w-5 h-5 bg-white rounded-full shadow-xl duration-300",
+                              "w-5 h-5 bg-white dark:bg-gray-200 rounded-full shadow-xl duration-300",
                               publishedStatus[index] && "translate-x-[90%]",
                             )}
                           />
@@ -230,7 +244,7 @@ const Page = () => {
                       <div className="flex justify-center">
                         <Link
                           href={`/dashboard/products/${product.id}/edit`}
-                          className="flex items-center space-x-2 border border-gray-200 rounded-full px-3 py-1 hover:bg-black hover:text-white hover:scale-95 duration-200"
+                          className="flex items-center space-x-2 border border-gray-200 dark:border-gray-600 rounded-full px-3 py-1 text-gray-700 dark:text-gray-300 hover:bg-black hover:text-white hover:scale-95 duration-200"
                         >
                           <PencilIcon className="w-4 h-4" />
                           <p>Manage</p>
@@ -250,7 +264,7 @@ const Page = () => {
                             </button>
                             <button
                               onClick={() => setDeleteConfirmIndex(null)}
-                              className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm hover:bg-gray-300 duration-200 cursor-pointer"
+                              className="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-500 duration-200 cursor-pointer"
                             >
                               Cancel
                             </button>
@@ -258,7 +272,7 @@ const Page = () => {
                         ) : (
                           <button
                             onClick={() => setDeleteConfirmIndex(index)}
-                            className="flex items-center space-x-2 border border-red-200 text-red-500 rounded-full px-3 py-1 hover:bg-red-500 hover:text-white hover:scale-95 duration-200 cursor-pointer"
+                            className="flex items-center space-x-2 border border-red-200 dark:border-red-800 text-red-500 dark:text-red-400 rounded-full px-3 py-1 hover:bg-red-500 hover:text-white hover:scale-95 duration-200 cursor-pointer"
                           >
                             <TrashIcon className="w-4 h-4" />
                             <p>Delete</p>
@@ -280,7 +294,7 @@ const Page = () => {
           initial={{ opacity: 0, x: 100, scale: 0.3 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 100, scale: 0.5 }}
-          className={`fixed bottom-4 right-4 z-50 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 p-4 ${
+          className={`fixed bottom-4 right-4 z-50 max-w-sm w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg border-l-4 p-4 ${
             notification.type === "success"
               ? "border-green-500"
               : "border-red-500"
@@ -289,7 +303,9 @@ const Page = () => {
           <div className="flex items-center">
             <div
               className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                notification.type === "success" ? "bg-green-100" : "bg-red-100"
+                notification.type === "success"
+                  ? "bg-green-100 dark:bg-green-900"
+                  : "bg-red-100 dark:bg-red-900"
               }`}
             >
               {notification.type === "success" ? (
@@ -322,8 +338,8 @@ const Page = () => {
               <p
                 className={`text-sm font-medium ${
                   notification.type === "success"
-                    ? "text-green-800"
-                    : "text-red-800"
+                    ? "text-green-800 dark:text-green-200"
+                    : "text-red-800 dark:text-red-200"
                 }`}
               >
                 {notification.message}
@@ -336,8 +352,8 @@ const Page = () => {
                 }
                 className={`inline-flex rounded-md p-1.5 ${
                   notification.type === "success"
-                    ? "text-green-500 hover:bg-green-100"
-                    : "text-red-500 hover:bg-red-100"
+                    ? "text-green-500 hover:bg-green-100 dark:hover:bg-green-900"
+                    : "text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   notification.type === "success"
                     ? "focus:ring-green-600"

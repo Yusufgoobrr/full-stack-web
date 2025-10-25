@@ -284,8 +284,8 @@ const EditProduct = () => {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-gray-300 border-t-[#BAFC50] rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading product...</p>
+          <div className="w-8 h-8 border-4 border-gray-300 dark:border-gray-600 border-t-[#BAFC50] rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading product...</p>
         </div>
       </div>
     );
@@ -318,18 +318,20 @@ const EditProduct = () => {
           <div className="flex items-center space-x-1 text-lg md:text-xl">
             <Link
               href="/dashboard/my-products"
-              className="text-gray-400 hover:text-black duration-200 whitespace-nowrap"
+              className="text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-gray-100 duration-200 whitespace-nowrap"
             >
               My Products
             </Link>
-            <ChevronRightIcon className="w-4 h-4 text-gray-lighter" />
-            <p className="line-clamp-1">{product.name}</p>
+            <ChevronRightIcon className="w-4 h-4 text-gray-lighter dark:text-gray-500" />
+            <p className="line-clamp-1 text-gray-900 dark:text-gray-100">
+              {product.name}
+            </p>
           </div>
 
           <div className="flex items-center space-x-4">
             <Link
               href={`/dashboard/my-products`}
-              className="flex items-center space-x-2 border border-gray-200 rounded-full px-6 py-1 hover:bg-black hover:text-white hover:scale-95 duration-200"
+              className="flex items-center space-x-2 border border-gray-200 dark:border-gray-600 rounded-full px-6 py-1 text-gray-700 dark:text-gray-300 hover:bg-black hover:text-white hover:scale-95 duration-200"
             >
               <p>Cancel</p>
             </Link>
@@ -338,10 +340,10 @@ const EditProduct = () => {
               type="submit"
               disabled={!isFormValid() || !hasChanges}
               className={twMerge(
-                "py-1 px-6 font-medium rounded-full border-2 border-gray-200 duration-200",
+                "py-1 px-6 font-medium rounded-full border-2 border-gray-200 dark:border-gray-600 duration-200",
                 !isFormValid() || !hasChanges
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#BAFC50] hover:bg-white hover:border-[#BAFC50] hover:scale-95",
+                  ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                  : "bg-[#BAFC50] hover:bg-white dark:hover:bg-gray-800 hover:border-[#BAFC50] hover:scale-95",
               )}
             >
               <p>Save Changes</p>
@@ -351,8 +353,8 @@ const EditProduct = () => {
 
         <div className="space-y-5 md:space-y-8 xl:flex xl:items-start xl:space-y-0 w-full xl:space-x-6">
           {/* PRODUCT INFO */}
-          <div className="border border-gray-200 p-4 md:p-6 rounded-2xl space-y-5 w-full">
-            <h2 className="text-lg md:text-xl font-light text-gray-400">
+          <div className="border border-gray-200 dark:border-gray-700 p-4 md:p-6 rounded-2xl space-y-5 w-full bg-white dark:bg-gray-800">
+            <h2 className="text-lg md:text-xl font-light text-gray-400 dark:text-gray-500">
               Product Information
             </h2>
 
@@ -360,7 +362,7 @@ const EditProduct = () => {
             <div className="space-y-5">
               <div className="relative flex flex-col space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-gray-700 font-medium md:text-xl">
+                  <label className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                     Product Name
                   </label>
                   {productImage && !aiGenerateTitle && !isGeneratingTitle && (
@@ -404,11 +406,11 @@ const EditProduct = () => {
                   disabled={aiGenerateTitle}
                   {...register("name")}
                   className={twMerge(
-                    "outline-none border border-gray-200 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400",
+                    "outline-none border border-gray-200 dark:border-gray-600 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
                     errors.name
                       ? "border-red-500 ring-red-300"
                       : aiGenerateTitle
-                        ? "bg-gray-50 text-gray-500 cursor-not-allowed"
+                        ? "bg-gray-50 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                         : "input-hover",
                   )}
                 />
@@ -422,9 +424,9 @@ const EditProduct = () => {
               {/* DESCRIPTION */}
               <div className="flex flex-col space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-gray-700 font-medium md:text-xl">
+                  <label className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                     Description{" "}
-                    <span className="text-gray-400 text-sm md:text-base font-normal">
+                    <span className="text-gray-400 dark:text-gray-500 text-sm md:text-base font-normal">
                       (Optional)
                     </span>
                   </label>
@@ -470,9 +472,9 @@ const EditProduct = () => {
                   disabled={aiGenerateDescription}
                   {...register("description")}
                   className={twMerge(
-                    "outline-none border border-gray-200 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400",
+                    "outline-none border border-gray-200 dark:border-gray-600 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
                     aiGenerateDescription
-                      ? "bg-gray-50 text-gray-500 cursor-not-allowed"
+                      ? "bg-gray-50 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                       : "input-hover",
                   )}
                   rows={4}
@@ -481,32 +483,34 @@ const EditProduct = () => {
 
               {/* PRODUCT IMAGE */}
               <div className="flex flex-col space-y-2">
-                <p className="text-gray-700 font-medium md:text-xl">
+                <p className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                   Product Image{" "}
-                  <span className="text-gray-400 text-sm md:text-base font-normal">
+                  <span className="text-gray-400 dark:text-gray-500 text-sm md:text-base font-normal">
                     (Optional)
                   </span>
                 </p>
 
-                <div className="space-y-5 md:border md:border-gray-200 md:p-4 md:rounded-2xl">
+                <div className="space-y-5 md:border md:border-gray-200 dark:md:border-gray-700 md:p-4 md:rounded-2xl md:bg-gray-50 dark:md:bg-gray-900">
                   {!productImage ? (
                     /* IMAGE Picker */
                     <div
                       className={twMerge(
-                        "relative border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center space-y-2 md:space-y-3 text-sm md:text-base px-4 py-6 md:py-8 text-center transition-colors duration-200",
+                        "relative border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-2xl flex flex-col items-center space-y-2 md:space-y-3 text-sm md:text-base px-4 py-6 md:py-8 text-center transition-colors duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300",
                         isDragOver
-                          ? "border-[#BAFC50] bg-[#BAFC50]/5"
+                          ? "border-[#BAFC50] bg-[#BAFC50]/5 dark:bg-[#BAFC50]/10"
                           : "hover:border-[#BAFC50]",
                       )}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
                     >
-                      <div className="p-2 bg-gray-50 rounded-full text-gray-400">
+                      <div className="p-2 bg-gray-50 dark:bg-gray-700 rounded-full text-gray-400 dark:text-gray-500">
                         <ArrowUpTrayIcon className="w-6 h-6" />
                       </div>
                       <p>Choose a file Or Drag and Drop it here</p>
-                      <p className="text-gray-400">PNG, JPEG, up to 12Mb</p>
+                      <p className="text-gray-400 dark:text-gray-500">
+                        PNG, JPEG, up to 12Mb
+                      </p>
                       <label
                         htmlFor="file-upload"
                         className="cursor-pointer absolute w-full h-full"
@@ -523,7 +527,7 @@ const EditProduct = () => {
                   ) : (
                     /* IMAGE Preview */
                     <div className="flex flex-col items-center space-y-4">
-                      <div className="relative w-48 h-48 overflow-hidden rounded-2xl bg-gray-100 flex items-center justify-center shadow-lg">
+                      <div className="relative w-48 h-48 overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center shadow-lg">
                         <Image
                           src={productImage}
                           alt="Product Preview"
@@ -557,7 +561,7 @@ const EditProduct = () => {
                       {/* Replace Button */}
                       <label
                         htmlFor="file-upload-replace"
-                        className="cursor-pointer flex items-center space-x-2 border border-gray-300 rounded-full px-4 py-2 hover:bg-gray-50 duration-200"
+                        className="cursor-pointer flex items-center space-x-2 border border-gray-300 dark:border-gray-600 rounded-full px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 duration-200"
                       >
                         <ArrowUpTrayIcon className="w-4 h-4" />
                         <span className="text-sm">Replace Image</span>
@@ -578,25 +582,27 @@ const EditProduct = () => {
 
           <div className="space-y-5 md:space-y-8 w-full">
             {/* STATUS */}
-            <div className="border border-gray-200 p-4 md:p-6 rounded-2xl space-y-5">
-              <h2 className="text-lg md:text-xl font-light text-gray-400">
+            <div className="border border-gray-200 dark:border-gray-700 p-4 md:p-6 rounded-2xl space-y-5 bg-white dark:bg-gray-800">
+              <h2 className="text-lg md:text-xl font-light text-gray-400 dark:text-gray-500">
                 Product Status
               </h2>
               <div className="flex items-center justify-between">
-                <p className="text-gray-700 font-medium md:text-xl">Active</p>
+                <p className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
+                  Active
+                </p>
                 <button
                   type="button"
                   className={twMerge(
                     "p-[3px] rounded-full w-11 duration-300",
                     isPublished
                       ? "bg-green-500"
-                      : "bg-gray-200 hover:bg-green-200",
+                      : "bg-gray-200 dark:bg-gray-600 hover:bg-green-200 dark:hover:bg-green-600",
                   )}
                   onClick={() => setIsPublished(!isPublished)}
                 >
                   <div
                     className={twMerge(
-                      "w-5 h-5 bg-white rounded-full shadow-xl duration-300",
+                      "w-5 h-5 bg-white dark:bg-gray-200 rounded-full shadow-xl duration-300",
                       isPublished && "translate-x-[90%]",
                     )}
                   />
@@ -605,12 +611,12 @@ const EditProduct = () => {
             </div>
 
             {/* QUANTITY */}
-            <div className="border border-gray-200 p-4 md:p-6 rounded-2xl space-y-5">
-              <h2 className="text-lg md:text-xl font-light text-gray-400">
+            <div className="border border-gray-200 dark:border-gray-700 p-4 md:p-6 rounded-2xl space-y-5 bg-white dark:bg-gray-800">
+              <h2 className="text-lg md:text-xl font-light text-gray-400 dark:text-gray-500">
                 Stock Level
               </h2>
               <div className="relative flex flex-col space-y-2">
-                <label className="text-gray-700 font-medium md:text-xl">
+                <label className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                   Quantity
                 </label>
                 <input
@@ -618,7 +624,7 @@ const EditProduct = () => {
                   placeholder="Enter the number of units available"
                   {...register("quantity")}
                   className={twMerge(
-                    "outline-none border border-gray-200 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400",
+                    "outline-none border border-gray-200 dark:border-gray-600 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
                     errors.quantity
                       ? "border-red-500 ring-red-300"
                       : "input-hover",
@@ -633,12 +639,12 @@ const EditProduct = () => {
             </div>
 
             {/* PRICE */}
-            <div className="border border-gray-200 p-4 md:p-6 rounded-2xl space-y-5">
-              <h2 className="text-lg md:text-xl font-light text-gray-400">
+            <div className="border border-gray-200 dark:border-gray-700 p-4 md:p-6 rounded-2xl space-y-5 bg-white dark:bg-gray-800">
+              <h2 className="text-lg md:text-xl font-light text-gray-400 dark:text-gray-500">
                 Pricing
               </h2>
               <div className="relative flex flex-col space-y-2">
-                <label className="text-gray-700 font-medium md:text-xl">
+                <label className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                   Price
                 </label>
                 <input
@@ -648,7 +654,7 @@ const EditProduct = () => {
                   placeholder="Set the price for this product (e.g., 29.99)"
                   {...register("price")}
                   className={twMerge(
-                    "outline-none border border-gray-200 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400",
+                    "outline-none border border-gray-200 dark:border-gray-600 ring ring-transparent py-2 px-3 rounded-lg duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
                     errors.price
                       ? "border-red-500 ring-red-300"
                       : "input-hover",
@@ -663,9 +669,9 @@ const EditProduct = () => {
             </div>
 
             {/* STRIPE Product ID - Information only */}
-            <div className="border border-gray-200 p-4 md:p-6 rounded-2xl space-y-5">
+            <div className="border border-gray-200 dark:border-gray-700 p-4 md:p-6 rounded-2xl space-y-5 bg-white dark:bg-gray-800">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg md:text-xl font-light text-gray-400">
+                <h2 className="text-lg md:text-xl font-light text-gray-400 dark:text-gray-500">
                   Stripe Product ID
                 </h2>
 
@@ -674,14 +680,14 @@ const EditProduct = () => {
                 </div>
               </div>
               <div className="relative flex flex-col space-y-2">
-                <label className="text-gray-700 font-medium md:text-xl">
+                <label className="text-gray-700 dark:text-gray-300 font-medium md:text-xl">
                   Product ID{" "}
-                  <span className="text-gray-400 text-sm md:text-base font-normal">
+                  <span className="text-gray-400 dark:text-gray-500 text-sm md:text-base font-normal">
                     (generated by server)
                   </span>
                 </label>
-                <div className="outline-none border border-gray-200 ring ring-transparent py-2 px-3 rounded-lg duration-300 bg-gray-50 text-gray-600 cursor-not-allowed">
-                  <p className="text-sm text-gray-500">
+                <div className="outline-none border border-gray-200 dark:border-gray-600 ring ring-transparent py-2 px-3 rounded-lg duration-300 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     No Stripe ID available
                   </p>
                 </div>
@@ -697,7 +703,7 @@ const EditProduct = () => {
           initial={{ opacity: 0, x: 100, scale: 0.3 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 100, scale: 0.5 }}
-          className={`fixed bottom-4 right-4 z-50 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 p-4 ${
+          className={`fixed bottom-4 right-4 z-50 max-w-sm w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg border-l-4 p-4 ${
             notification.type === "success"
               ? "border-green-500"
               : "border-red-500"
@@ -706,7 +712,9 @@ const EditProduct = () => {
           <div className="flex items-center">
             <div
               className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                notification.type === "success" ? "bg-green-100" : "bg-red-100"
+                notification.type === "success"
+                  ? "bg-green-100 dark:bg-green-900"
+                  : "bg-red-100 dark:bg-red-900"
               }`}
             >
               {notification.type === "success" ? (
@@ -739,8 +747,8 @@ const EditProduct = () => {
               <p
                 className={`text-sm font-medium ${
                   notification.type === "success"
-                    ? "text-green-800"
-                    : "text-red-800"
+                    ? "text-green-800 dark:text-green-200"
+                    : "text-red-800 dark:text-red-200"
                 }`}
               >
                 {notification.message}
@@ -753,8 +761,8 @@ const EditProduct = () => {
                 }
                 className={`inline-flex rounded-md p-1.5 ${
                   notification.type === "success"
-                    ? "text-green-500 hover:bg-green-100"
-                    : "text-red-500 hover:bg-red-100"
+                    ? "text-green-500 hover:bg-green-100 dark:hover:bg-green-900"
+                    : "text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   notification.type === "success"
                     ? "focus:ring-green-600"
