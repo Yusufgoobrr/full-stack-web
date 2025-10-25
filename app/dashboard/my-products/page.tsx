@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import Box from "@/icons/general/Box";
 import api from "@/lib/axios";
 import { TProduct } from "@/types";
 
@@ -23,6 +24,16 @@ const Page = () => {
     message: string;
     type: "success" | "error";
   }>({ show: false, message: "", type: "success" });
+
+  // Helper function to determine if product should use image or fallback icon
+  const shouldUseProductImage = (productName: string): boolean => {
+    const normalizedName = productName.toLowerCase().trim();
+    return (
+      normalizedName === "iphone" ||
+      normalizedName === "mouse" ||
+      normalizedName === "macbook pro"
+    );
+  };
 
   // Fetch products from API
   useEffect(() => {
@@ -146,12 +157,18 @@ const Page = () => {
                     >
                       <div className="col-start-1 col-end-3 text-left">
                         <div className="flex items-center space-x-4">
-                          <Image
-                            src={`/assets/products/${product.name}.png`}
-                            alt="product img"
-                            width={60}
-                            height={60}
-                          />
+                          {shouldUseProductImage(product.name) ? (
+                            <Image
+                              src={`/assets/products/${product.name}.png`}
+                              alt="product img"
+                              width={60}
+                              height={60}
+                            />
+                          ) : (
+                            <div className="w-[60px] h-[60px] bg-gray-100 rounded-lg flex items-center justify-center">
+                              <Box />
+                            </div>
+                          )}
 
                           <p className="line-clamp-1">{product.name}</p>
                         </div>

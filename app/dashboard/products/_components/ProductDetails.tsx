@@ -10,11 +10,22 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 
+import Box from "@/icons/general/Box";
 import { TProduct } from "@/types";
 
 const ProductDetails = ({ product }: { product: TProduct }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Helper function to determine if product should use image or fallback icon
+  const shouldUseProductImage = (productName: string): boolean => {
+    const normalizedName = productName.toLowerCase().trim();
+    return (
+      normalizedName === "iphone" ||
+      normalizedName === "mouse" ||
+      normalizedName === "macbook pro"
+    );
+  };
 
   // Create array of product images (you can modify this to include different images)
   const productImages = [
@@ -85,12 +96,18 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
             className="aspect-square max-h-[600px] relative overflow-hidden rounded-[40px] bg-gray-50 flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity duration-200"
             onClick={() => openModal(0)}
           >
-            <Image
-              src={`/assets/products/${product.name}.png`}
-              alt="Product Img"
-              width={250}
-              height={250}
-            />
+            {shouldUseProductImage(product.name) ? (
+              <Image
+                src={`/assets/products/${product.name}.png`}
+                alt="Product Img"
+                width={250}
+                height={250}
+              />
+            ) : (
+              <div className="scale-300">
+                <Box />
+              </div>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -100,12 +117,18 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
                 className="size-[140px] relative overflow-hidden rounded-3xl bg-gray-100 flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 onClick={() => openModal(index)}
               >
-                <Image
-                  src={imageSrc}
-                  alt="Product Img"
-                  width={80}
-                  height={80}
-                />
+                {shouldUseProductImage(product.name) ? (
+                  <Image
+                    src={imageSrc}
+                    alt="Product Img"
+                    width={80}
+                    height={80}
+                  />
+                ) : (
+                  <div className="scale-200">
+                    <Box />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -204,13 +227,21 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="max-w-5xl max-h-full">
-              <Image
-                src={productImages[currentImageIndex]}
-                alt="Product Image"
-                width={800}
-                height={800}
-                className="w-full h-auto max-h-[85vh] object-contain"
-              />
+              {shouldUseProductImage(product.name) ? (
+                <Image
+                  src={productImages[currentImageIndex]}
+                  alt="Product Image"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto max-h-[85vh] object-contain"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-[85vh]">
+                  <div className="scale-500">
+                    <Box />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
