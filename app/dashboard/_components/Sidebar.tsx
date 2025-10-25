@@ -45,6 +45,15 @@ const Sidebar = () => {
     setShowLogoutPopup(false);
   };
 
+  const handleMenuClick = (tab: any) => {
+    if (tab.label === "Settings" || tab.label === "Transactions") {
+      alert("This feature is not implemented yet.");
+      return;
+    }
+    // For other menu items, navigate normally
+    window.location.href = tab.link;
+  };
+
   const sidebarVariants = {
     hidden: {
       x: "-100%",
@@ -162,10 +171,10 @@ const Sidebar = () => {
               <div className="space-y-2 flex flex-col">
                 {DashboardTabs.map((tab, index) => (
                   <div key={index}>
-                    <Link
-                      href={tab.link}
+                    <button
+                      onClick={() => handleMenuClick(tab)}
                       className={twMerge(
-                        "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200",
+                        "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200 w-full text-left",
                         pathname === tab.link
                           ? "bg-white text-black"
                           : "text-[#9B9B9B] hover:bg-white hover:text-black",
@@ -173,7 +182,7 @@ const Sidebar = () => {
                     >
                       {tab.icon}
                       <p>{tab.label}</p>
-                    </Link>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -190,10 +199,10 @@ const Sidebar = () => {
       <div className="lg:space-y-2 hidden lg:flex flex-col">
         {DashboardTabs.map((tab, index) => (
           <div key={index}>
-            <Link
-              href={tab.link}
+            <button
+              onClick={() => handleMenuClick(tab)}
               className={twMerge(
-                "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200",
+                "flex items-center space-x-2 px-3 py-2 md:py-2.5 rounded-full duration-200 w-full text-left",
                 pathname === tab.link
                   ? "bg-white text-black"
                   : "text-[#9B9B9B] hover:bg-white hover:text-black",
@@ -201,7 +210,7 @@ const Sidebar = () => {
             >
               {tab.icon}
               <p>{tab.label}</p>
-            </Link>
+            </button>
           </div>
         ))}
       </div>
