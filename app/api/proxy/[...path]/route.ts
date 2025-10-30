@@ -4,6 +4,8 @@ const API_BASE_URL =
   process.env.API_BASE_URL || "http://product.amigoscodeplayground.com:8080";
 
 // api/proxy/api/v1/products
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
@@ -20,7 +22,7 @@ export async function GET(
   console.log(url.toString());
 
   try {
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), { cache: "no-store" });
 
     const contentType = response.headers.get("content-type") || "";
 
