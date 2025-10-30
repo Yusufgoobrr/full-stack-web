@@ -204,6 +204,9 @@ export async function POST(
           "Content-Type": reqContentType,
         },
         body: request.body,
+        // Node.js fetch requires duplex when streaming a body
+        // Type assertion avoids TS lib mismatch in some environments
+        ...({ duplex: "half" } as unknown as RequestInit),
       });
 
       const resContentType =
