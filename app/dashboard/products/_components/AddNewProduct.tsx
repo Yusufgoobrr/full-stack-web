@@ -35,6 +35,7 @@ type FormType = yup.InferType<typeof schema>;
 const AddNewProduct = () => {
   const [isPublished, setIsPublished] = useState<boolean>(true);
   const [productImage, setProductImage] = useState<string | null>(null);
+  const [productImageFile, setProductImageFile] = useState<File | null>(null);
   const [aiGenerateTitle, setAiGenerateTitle] = useState<boolean>(false);
   const [aiGenerateDescription, setAiGenerateDescription] =
     useState<boolean>(false);
@@ -82,13 +83,33 @@ const AddNewProduct = () => {
     // Add additional fields to payload
     const productData = {
       ...payload,
-      imageUrl: productImage,
+      // Do not send a blob preview URL to backend
       isPublished: isPublished,
       stockLevel: payload.quantity, // Map quantity to stockLevel
     };
 
     try {
-      await api.post("/api/v1/products", productData);
+      // If we have an image file, use the backend's multipart endpoint to create product + image together
+      if (productImageFile) {
+        const formData = new FormData();
+        formData.append("name", String(productData.name ?? ""));
+        formData.append("description", String(productData.description ?? ""));
+        formData.append("price", String(productData.price ?? ""));
+        formData.append("stockLevel", String(productData.stockLevel ?? ""));
+        formData.append("image", productImageFile);
+
+        const { data } = await api.post(`/api/v1/products`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        // data is expected to be the created product UUID
+        if (!data) {
+          throw new Error("Product creation did not return an ID");
+        }
+      } else {
+        // Fallback: create without image using JSON endpoint contract
+        await api.post("/api/v1/products", productData);
+      }
       showNotification("Product created successfully!", "success");
       // Delay navigation to show the success notification
       setTimeout(() => {
@@ -110,12 +131,14 @@ const AddNewProduct = () => {
       const file = files[0];
       const imageUrl = URL.createObjectURL(file);
       setProductImage(imageUrl);
+      setProductImageFile(file);
       event.target.value = "";
     }
   };
 
   const handleRemoveImage = () => {
     setProductImage(null);
+    setProductImageFile(null);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -141,6 +164,7 @@ const AddNewProduct = () => {
       if (file.type.startsWith("image/")) {
         const imageUrl = URL.createObjectURL(file);
         setProductImage(imageUrl);
+        setProductImageFile(file);
       }
     }
   };

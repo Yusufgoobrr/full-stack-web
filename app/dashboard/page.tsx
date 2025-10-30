@@ -16,7 +16,9 @@ const Page = async () => {
         <ProductCard
           name={p.name}
           price={p.price}
-          imageUrl={`/assets/products/${p.name}.png`}
+          imageUrl={
+            p.imageUrl ? `/api/proxy/api/v1/products/${p.id}/image` : null
+          }
           link={`/dashboard/products/${p.id}`}
         />
       </div>

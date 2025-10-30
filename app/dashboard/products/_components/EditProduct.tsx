@@ -41,6 +41,7 @@ const EditProduct = () => {
   const [loading, setLoading] = useState(true);
   const [isPublished, setIsPublished] = useState<boolean>(true);
   const [productImage, setProductImage] = useState<string | null>(null);
+  const [productImageFile, setProductImageFile] = useState<File | null>(null);
   const [aiGenerateTitle, setAiGenerateTitle] = useState<boolean>(false);
   const [aiGenerateDescription, setAiGenerateDescription] =
     useState<boolean>(false);
@@ -101,7 +102,12 @@ const EditProduct = () => {
 
         // Set other state values
         setIsPublished(data.isPublished);
-        setProductImage(data.imageUrl);
+        // If backend has an image, point preview to our proxy GET endpoint
+        if (data.imageUrl) {
+          setProductImage(`/api/proxy/api/v1/products/${productId}/image`);
+        } else {
+          setProductImage(null);
+        }
 
         // Store original values for change detection
         originalValuesRef.current = {
@@ -153,13 +159,23 @@ const EditProduct = () => {
     // Add additional fields to payload
     const productData = {
       ...payload,
-      imageUrl: productImage,
+      // Do not send a blob preview URL to backend
       isPublished: isPublished,
       stockLevel: payload.quantity, // Map quantity to stockLevel
     };
 
     try {
       await api.put(`/api/v1/products/${productId}`, productData);
+
+      // Upload new image if one was selected
+      if (productImageFile) {
+        const formData = new FormData();
+        formData.append("file", productImageFile);
+        await api.post(`/api/v1/products/${productId}/image`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setProductImageFile(null);
+      }
       showNotification("Product updated successfully!", "success");
 
       // Update the original values ref to reset change detection
@@ -182,7 +198,7 @@ const EditProduct = () => {
               price: productData.price,
               stockLevel: productData.stockLevel,
               isPublished: productData.isPublished,
-              imageUrl: productData.imageUrl,
+              imageUrl: prev.imageUrl,
             }
           : null,
       );
@@ -202,12 +218,14 @@ const EditProduct = () => {
       const file = files[0];
       const imageUrl = URL.createObjectURL(file);
       setProductImage(imageUrl);
+      setProductImageFile(file);
       event.target.value = "";
     }
   };
 
   const handleRemoveImage = () => {
     setProductImage(null);
+    setProductImageFile(null);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -233,6 +251,7 @@ const EditProduct = () => {
       if (file.type.startsWith("image/")) {
         const imageUrl = URL.createObjectURL(file);
         setProductImage(imageUrl);
+        setProductImageFile(file);
       }
     }
   };

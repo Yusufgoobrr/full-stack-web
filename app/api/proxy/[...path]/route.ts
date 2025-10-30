@@ -20,14 +20,33 @@ export async function GET(
   console.log(url.toString());
 
   try {
-    const response = await fetch(url.toString(), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(url.toString());
 
+    const contentType = response.headers.get("content-type") || "";
+
+    // For non-JSON (e.g., images, binaries), stream bytes through
+    if (!contentType.includes("application/json")) {
+      const arrayBuffer = await response.arrayBuffer();
+      return new NextResponse(Buffer.from(arrayBuffer), {
+        status: response.status,
+        headers: {
+          "Content-Type": contentType || "application/octet-stream",
+          ...(response.headers.get("content-length")
+            ? { "Content-Length": response.headers.get("content-length")! }
+            : {}),
+          ...(response.headers.get("content-disposition")
+            ? {
+                "Content-Disposition": response.headers.get(
+                  "content-disposition",
+                )!,
+              }
+            : {}),
+        },
+      });
+    }
+
+    // Default JSON handling
     const data = await response.json();
-
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     return NextResponse.json(
@@ -171,8 +190,33 @@ export async function POST(
   try {
     const resolvedParams = await params;
     const path = resolvedParams.path.join("/");
-    const body = await request.json();
+    const reqContentType = request.headers.get("content-type") || "";
 
+    // If multipart or non-JSON, stream the body through with original content type
+    if (
+      reqContentType.includes("multipart/form-data") ||
+      reqContentType.includes("application/octet-stream")
+    ) {
+      const response = await fetch(`${API_BASE_URL}/${path}`, {
+        method: "POST",
+        headers: {
+          // preserve boundary/content type
+          "Content-Type": reqContentType,
+        },
+        body: request.body,
+      });
+
+      const resContentType =
+        response.headers.get("content-type") || "text/plain";
+      const buffer = await response.arrayBuffer();
+      return new NextResponse(Buffer.from(buffer), {
+        status: response.status,
+        headers: { "Content-Type": resContentType },
+      });
+    }
+
+    // Default JSON handling
+    const body = await request.json();
     const response = await fetch(`${API_BASE_URL}/${path}`, {
       method: "POST",
       headers: {
@@ -181,7 +225,6 @@ export async function POST(
       body: JSON.stringify(body),
     });
 
-    // Check if response has content and is JSON
     const contentType = response.headers.get("content-type");
     const isJson = contentType && contentType.includes("application/json");
 
@@ -189,7 +232,6 @@ export async function POST(
       const data = await response.json();
       return NextResponse.json(data, { status: response.status });
     } else {
-      // For non-JSON responses, return the response as-is
       const text = await response.text();
       return new NextResponse(text, {
         status: response.status,

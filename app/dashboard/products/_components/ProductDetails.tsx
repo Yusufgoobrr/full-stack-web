@@ -17,23 +17,12 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Helper function to determine if product should use image or fallback icon
-  const shouldUseProductImage = (productName: string): boolean => {
-    const normalizedName = productName.toLowerCase().trim();
-    return (
-      normalizedName === "iphone" ||
-      normalizedName === "mouse" ||
-      normalizedName === "macbook pro"
-    );
-  };
+  const resolvedImageUrl = product.imageUrl
+    ? `/api/proxy/api/v1/products/${product.id}/image`
+    : null;
 
   // Create array of product images (you can modify this to include different images)
-  const productImages = [
-    `/assets/products/${product.name}.png`,
-    `/assets/products/${product.name}.png`, // Same image for now, you can add different images
-    `/assets/products/${product.name}.png`,
-    `/assets/products/${product.name}.png`,
-  ];
+  const productImages = resolvedImageUrl ? [resolvedImageUrl] : [];
 
   const openModal = (imageIndex: number) => {
     setCurrentImageIndex(imageIndex);
@@ -96,9 +85,9 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
             className="aspect-square max-h-[600px] relative overflow-hidden rounded-[40px] bg-gray-50 flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity duration-200"
             onClick={() => openModal(0)}
           >
-            {shouldUseProductImage(product.name) ? (
+            {resolvedImageUrl ? (
               <Image
-                src={`/assets/products/${product.name}.png`}
+                src={resolvedImageUrl}
                 alt="Product Img"
                 width={250}
                 height={250}
@@ -117,7 +106,7 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
                 className="size-[140px] relative overflow-hidden rounded-3xl bg-gray-100 flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 onClick={() => openModal(index)}
               >
-                {shouldUseProductImage(product.name) ? (
+                {resolvedImageUrl ? (
                   <Image
                     src={imageSrc}
                     alt="Product Img"
@@ -227,7 +216,7 @@ const ProductDetails = ({ product }: { product: TProduct }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="max-w-5xl max-h-full">
-              {shouldUseProductImage(product.name) ? (
+              {resolvedImageUrl ? (
                 <Image
                   src={productImages[currentImageIndex]}
                   alt="Product Image"

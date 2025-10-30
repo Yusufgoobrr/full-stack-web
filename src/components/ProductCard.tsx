@@ -6,28 +6,18 @@ import React from "react";
 import Box from "@/icons/general/Box";
 
 type TProductCard = {
-  imageUrl: string;
+  imageUrl?: string | null;
   name: string;
   price: number;
   link: string;
 };
 
 const ProductCard = ({ imageUrl, name, price, link }: TProductCard) => {
-  // Helper function to determine if product should use image or fallback icon
-  const shouldUseProductImage = (productName: string): boolean => {
-    const normalizedName = productName.toLowerCase().trim();
-    return (
-      normalizedName === "iphone" ||
-      normalizedName === "mouse" ||
-      normalizedName === "macbook pro"
-    );
-  };
-
   return (
     <div className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-[35px] space-y-5 p-2 group">
       {/* PRODUCT Image */}
       <div className="w-full h-[250px] md:h-[280px] relative overflow-hidden rounded-[30px] bg-gray-50 dark:bg-gray-700 flex items-center justify-center">
-        {shouldUseProductImage(name) ? (
+        {imageUrl ? (
           <Image
             src={imageUrl}
             alt="Product Img"

@@ -25,14 +25,11 @@ const Page = () => {
     type: "success" | "error";
   }>({ show: false, message: "", type: "success" });
 
-  // Helper function to determine if product should use image or fallback icon
-  const shouldUseProductImage = (productName: string): boolean => {
-    const normalizedName = productName.toLowerCase().trim();
-    return (
-      normalizedName === "iphone" ||
-      normalizedName === "mouse" ||
-      normalizedName === "macbook pro"
-    );
+  // Whether a product has a server image available
+  const getImageUrl = (product: TProduct): string | null => {
+    if (product.imageUrl)
+      return `/api/proxy/api/v1/products/${product.id}/image`;
+    return null;
   };
 
   // Fetch products from API
@@ -165,9 +162,9 @@ const Page = () => {
                     >
                       <div className="col-start-1 col-end-3 text-left">
                         <div className="flex items-center space-x-4">
-                          {shouldUseProductImage(product.name) ? (
+                          {getImageUrl(product) ? (
                             <Image
-                              src={`/assets/products/${product.name}.png`}
+                              src={getImageUrl(product) as string}
                               alt="product img"
                               width={60}
                               height={60}
