@@ -48,9 +48,9 @@ const ProductCard = ({ imageUrl, name, price, link }: TProductCard) => {
           href={link}
           className="flex items-center space-x-2 border-2 border-transparent bg-[#BAFC50] hover:bg-white dark:hover:bg-gray-800 hover:border-[#BAFC50] hover:scale-95 duration-200 py-1 pl-4 pr-1.5 rounded-full"
         >
-          <p className="text-sm text-gray-900">Learn more</p>
-          <div className="bg-black text-white rounded-full p-1.5">
-            <div className="border border-white rounded-full w-5 h-5 flex items-center justify-center -space-x-2">
+          <p className="text-sm text-gray-900 dark:text-gray-100">Learn more</p>
+          <div className="bg-black dark:bg-white text-white dark:text-gray-900 rounded-full p-1.5">
+            <div className="border border-white dark:border-gray-900 rounded-full w-5 h-5 flex items-center justify-center -space-x-2">
               <ChevronRightIcon className="w-4 h-4" />
               <ChevronRightIcon className="w-4 h-4" />
             </div>

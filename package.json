@@ -11,6 +11,12 @@
     "prettier:format": "prettier . --write",
     "prepare": "husky install"
   },
+  "pnpm": {
+    "overrides": {
+      "react": "19.0.0-rc.1",
+      "react-dom": "19.0.0-rc.1"
+    }
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
